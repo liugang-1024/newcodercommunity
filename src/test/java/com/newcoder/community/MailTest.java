@@ -38,5 +38,4 @@ public class MailTest {
         mailClient.sendMail("2356239104@qq.com","HTML",content);
     }
 
-
 }
