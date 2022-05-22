@@ -1,6 +1,8 @@
 package com.newcoder.community.service;
 
+import com.newcoder.community.dao.LoginTicketMapper;
 import com.newcoder.community.dao.UserMapper;
+import com.newcoder.community.entity.LoginTicket;
 import com.newcoder.community.entity.User;
 import com.newcoder.community.util.CommunityConstant;
 import com.newcoder.community.util.CommunityUtil;
@@ -21,6 +23,9 @@ import java.util.Random;
 public class UserService implements CommunityConstant {
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private LoginTicketMapper loginTicketMapper;
 
     @Autowired
     private MailClient mailClient;
@@ -48,15 +53,19 @@ public class UserService implements CommunityConstant {
             throw new IllegalArgumentException("参数不能为空");
         }
         if (StringUtils.isAllBlank(user.getUsername())){
-            map.put("username","账号不能为空");
+            map.put("usernameMsg","账号不能为空");
             return map;
         }
         if (StringUtils.isAllBlank(user.getPassword())){
-            map.put("password","密码不能为空");
+            map.put("passwordMsg","密码不能为空");
+            return map;
+        }
+        if (user.getPassword().length()<8){
+            map.put("passwordMsg","密码长度不能低于8位");
             return map;
         }
         if (StringUtils.isAllBlank(user.getEmail())){
-            map.put("email","邮箱不能为空");
+            map.put("emailMsg","邮箱不能为空");
             return map;
         }
 
@@ -107,7 +116,53 @@ public class UserService implements CommunityConstant {
         }
     }
 
+    //登录
+    public Map<String,Object> login(String username,String password,long expiredSeconds){
+        Map<String,Object> map = new HashMap<>();
 
+        //空值处理
+        if (StringUtils.isBlank(username)){
+            map.put("usernameMsg","账号不能为空");
+            return map;
+        }
+        if (StringUtils.isBlank(password)){
+            map.put("passwordMsg","密码不能为空");
+            return map;
+        }
+        if (password.length()<8){
+            map.put("passwordMsg","密码长度不能低于8位");
+            return map;
+        }
+        //验证账号
+        User user = userMapper.selectByName(username);
+        if (user == null){
+            map.put("usernameMsg","该账号不存在");
+            return map;
+        }
+        //验证密码
+        if (user.getStatus()==0){
+            map.put("usernameMsg","该账号未激活");
+            return map;
+        }
+        //验证密码
+        password = CommunityUtil.MD5(password+user.getSalt());
+        if (!user.getPassword().equals(password)){
+            map.put("passwordMsg","密码不正确");
+            return map;
+        }
+        //生成登录凭证
+        LoginTicket loginTicket = new LoginTicket();
+        loginTicket.setUserId(user.getId());
+        loginTicket.setTicket(CommunityUtil.generateUUID());
+        loginTicket.setStatus(0);
+        loginTicket.setExpired(new Date(System.currentTimeMillis() + expiredSeconds * 1000));
+        map.put("ticket",loginTicket.getTicket());
+        loginTicketMapper.insertLoginTicket(loginTicket);
+        return map;
+    }
 
+    public void  logout(String ticket){
+        loginTicketMapper.updateStatusByTicket(ticket,1);
+    }
 
 }
