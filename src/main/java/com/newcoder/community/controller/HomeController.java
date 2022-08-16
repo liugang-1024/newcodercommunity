@@ -1,5 +1,6 @@
 package com.newcoder.community.controller;
 
+import com.mysql.cj.util.DnsSrv;
 import com.newcoder.community.entity.Page;
 import com.newcoder.community.service.UserService;
 import com.newcoder.community.entity.DiscussPost;
@@ -43,6 +44,11 @@ public class HomeController {
         }
         model.addAttribute("discussPosts",discussPosts);
         return "/index";
+    }
+
+    @RequestMapping(path = "/error",method = RequestMethod.GET)
+    public String getErrorPage(){
+        return "/error/500";
     }
 
 }

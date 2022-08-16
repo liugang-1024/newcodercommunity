@@ -1,7 +1,6 @@
 package com.newcoder.community.controller;
 
 
-import com.mysql.cj.util.DnsSrv;
 import com.newcoder.community.entity.Message;
 import com.newcoder.community.entity.Page;
 import com.newcoder.community.entity.User;
@@ -28,6 +27,7 @@ public class MessageController {
     private HostHolder hostHolder;
     @Autowired
     private UserService userService;
+
     //私信列表
     @RequestMapping(path = "/letter/list",method = RequestMethod.GET)
     public String getLetterList(Model model,Page page){
