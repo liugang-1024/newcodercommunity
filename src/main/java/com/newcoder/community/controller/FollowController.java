@@ -47,7 +47,7 @@ public class FollowController implements CommunityConstant {
         return CommunityUtil.getJSONString(0,"已取消");
     }
 
-    @RequestMapping(path = "/followees/@{userId}",method = RequestMethod.GET)
+    @RequestMapping(path = "/followees/{userId}",method = RequestMethod.GET)
     public String getFollowees(@PathVariable("userId") int userId, Page page, Model model){
         User user = userService.findUserById(userId);
         if (user == null){
@@ -70,7 +70,7 @@ public class FollowController implements CommunityConstant {
         return "/site/followee";
     }
 
-    @RequestMapping(path = "/followers/@{userId}",method = RequestMethod.GET)
+    @RequestMapping(path = "/followers/{userId}",method = RequestMethod.GET)
     public String getFollowers(@PathVariable("userId") int userId, Page page, Model model){
         User user = userService.findUserById(userId);
         if (user == null){

@@ -80,6 +80,7 @@ public class FollowService implements CommunityConstant {
         if (targetIds ==null){
             return null;
         }
+
         List<Map<String,Object>> list = new ArrayList<>();
         for (Integer targetId : targetIds) {
             Map<String,Object> map = new HashMap<>();
