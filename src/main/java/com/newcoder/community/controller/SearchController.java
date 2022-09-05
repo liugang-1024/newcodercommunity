@@ -4,7 +4,6 @@ package com.newcoder.community.controller;
 import com.newcoder.community.entity.DiscussPost;
 import com.newcoder.community.entity.Page;
 import com.newcoder.community.entity.SearchResult;
-import com.newcoder.community.event.EventConsumer;
 import com.newcoder.community.service.ElasticsearchService;
 import com.newcoder.community.service.LikeService;
 import com.newcoder.community.service.UserService;

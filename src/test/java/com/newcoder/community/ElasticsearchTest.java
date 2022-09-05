@@ -40,8 +40,6 @@ public class ElasticsearchTest {
     @Autowired
     private DiscussPostRepository discussRepository;
 
-    @Autowired
-    private ElasticsearchRestTemplate elasticsearchTemplate;
 
     @Autowired
     private RestHighLevelClient restHighLevelClient;
