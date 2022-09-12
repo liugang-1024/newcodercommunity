@@ -29,8 +29,6 @@ public class ElasticsearchService {
     @Autowired
     private DiscussPostRepository discussPostRepository;
 
-    @Autowired
-    private ElasticsearchRestTemplate esRestTemplate;
 
     @Autowired
     private RestHighLevelClient restHighLevelClient;
