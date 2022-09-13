@@ -41,10 +41,10 @@ public class MapperTests {
 
     @Test
     public void testSelectPosts(){
-        List<DiscussPost> discussPosts = discussPostMapper.selectDiscussPosts(0, 0, 10);
-        for (DiscussPost post:discussPosts) {
-            System.out.println(post);
-        }
+//        List<DiscussPost> discussPosts = discussPostMapper.selectDiscussPosts(0, 0, 10);
+//        for (DiscussPost post:discussPosts) {
+//            System.out.println(post);
+//        }
     }
 
     @Test
